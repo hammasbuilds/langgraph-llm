@@ -53,11 +53,11 @@ around — the actual result came from testing the assumption directly rather th
 
 | | Project | The finding | Tests |
 |---|---|---|---|
-| 01 | [Does the revision loop converge?](projects/p01_revision_loops/) | Doubling a critique-revise loop from 3 to 6 iterations changed **nothing** on every task tested. Letting the loop self-report "done" made it quit on the **first draft**, every time. | 13 |
-| 02 | [Does the router know when it's guessing?](projects/p02_router_misroute/) | Gating dispatch on the router's own confidence dropped clean-ticket accuracy from **100% to 33%** — confidence ran backwards, unconfident on easy tickets it got right, confident on the one it got wrong. | 17 |
-| 03 | [The synthesis that reads as complete](projects/p03_parallel_merge/) | Every silent branch failure in a 4-way fan-out produced a report covering all four aspects by name, **0% disclosure**. Explicitly asking the synthesis to flag gaps caught it half the time. | 15 |
-| 04 | [Does resuming redo work?](projects/p04_checkpoint_resume/) | A "pause for approval" pattern built without `interrupt()` cost **50% more drafting calls** than the checkpointed version — one wasted redraft, every single time, on identical final output. | 10 |
-| 05 | [Does the constraint survive the handoff?](projects/p05_supervisor_handoff/) | Passing only the latest message to a handed-off specialist dropped safety from **100% to 20%** — recommending eggs to a vegan customer, a hotel with no accessibility mention to someone who required it. | 19 |
+| [**01**](projects/p01_revision_loops/) | [**Does the revision loop converge?**](projects/p01_revision_loops/) | Doubling a critique-revise loop from 3 to 6 iterations changed **nothing** on every task tested. Letting the loop self-report "done" made it quit on the **first draft**, every time. | 13 |
+| [**02**](projects/p02_router_misroute/) | [**Does the router know when it's guessing?**](projects/p02_router_misroute/) | Gating dispatch on the router's own confidence dropped clean-ticket accuracy from **100% to 33%** — confidence ran backwards, unconfident on easy tickets it got right, confident on the one it got wrong. | 17 |
+| [**03**](projects/p03_parallel_merge/) | [**The synthesis that reads as complete**](projects/p03_parallel_merge/) | Every silent branch failure in a 4-way fan-out produced a report covering all four aspects by name, **0% disclosure**. Explicitly asking the synthesis to flag gaps caught it half the time. | 15 |
+| [**04**](projects/p04_checkpoint_resume/) | [**Does resuming redo work?**](projects/p04_checkpoint_resume/) | A "pause for approval" pattern built without `interrupt()` cost **50% more drafting calls** than the checkpointed version — one wasted redraft, every single time, on identical final output. | 10 |
+| [**05**](projects/p05_supervisor_handoff/) | [**Does the constraint survive the handoff?**](projects/p05_supervisor_handoff/) | Passing only the latest message to a handed-off specialist dropped safety from **100% to 20%** — recommending eggs to a vegan customer, a hotel with no accessibility mention to someone who required it. | 19 |
 
 All five are built. 74 tests, 28 screenshots.
 
