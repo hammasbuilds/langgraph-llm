@@ -11,7 +11,7 @@ conversation is a genuine architecture choice; this measures what each choice co
 
 ---
 
-## The result
+## Results
 
 | strategy | stayed on topic | broke the constraint | safe and relevant |
 |---|---|---|---|
@@ -103,7 +103,7 @@ beside its response:
 
 ![full context beside a naive last-message-only handoff, one safe and one recommending eggs to a vegan customer](../../screenshots/p05-2-handoff-comparison-light.png)
 
-## What this does NOT do
+## Scope
 
 - **Five cases, one model.** Enough to show a clear ordering across the three strategies; not
   enough to claim the exact percentages generalise.
@@ -116,22 +116,3 @@ beside its response:
 - **It does not test more than one handoff.** A chain of several specialists, each summarising
   for the next, would very plausibly compound the loss `summary_handoff` shows here — that is a
   reasonable extension, not something this run measures.
-
-## Problems hit while building this
-
-- **The forbidden-term check flagged safe answers for stating the constraint back.** A response
-  saying *"considering your peanut allergy"* or *"ensuring no peanuts are included"* was scored
-  as violating a peanut allergy, because the check banned the bare word "peanut" rather than
-  specific unsafe products. Every case's forbidden list now names dishes and brands, never the
-  allergen category itself.
-- **A banned substring like `"$1"` also matches `"$100"`**, which is comfortably under an $800
-  ceiling and not a violation. The budget case now extracts every dollar figure with a regex
-  and compares the numeric value, including a `$1.2k` shorthand form.
-- **A bare substring check on `"egg"` also matches `"eggplant"`**, a vegan vegetable, which
-  would have scored a correct recommendation as a violation. That one term is checked with a
-  word boundary; the rest of the corpus does not need it because none of its other forbidden
-  terms are also substrings of an unrelated safe word.
-- **A response that lost the topic entirely was scored as safe**, because it mentioned no
-  forbidden term by having said nothing relevant. Adding `on_topic()` as a separate, required
-  check is what stopped `last_message_only` from looking artificially better than it is on the
-  cases where it goes silent rather than getting it wrong.

@@ -1,13 +1,12 @@
 <h1 align="center">langgraph-lab (LangGraph · LangChain · Ollama · Pydantic)</h1>
-<p align="center"><i>One project per LangGraph shape, each built around the failure it is usually demoed past</i></p>
+<p align="center"><i>One project per LangGraph shape, each built and measured end to end</i></p>
 
 <p align="center">
-  <a href="#the-through-line">The through-line</a> &middot;
+  <a href="#what-it-does">What it does</a> &middot;
   <a href="#projects">Projects</a> &middot;
   <a href="#the-model-fleet">The model fleet</a> &middot;
   <a href="#screenshots">Screenshots</a> &middot;
-  <a href="#what-this-repo-does-not-do">What it does NOT do</a> &middot;
-  <a href="#problems-hit-while-building-this">Problems hit</a>
+  <a href="#scope">Scope</a> 
 </p>
 
 <p align="center">
@@ -20,7 +19,7 @@
 
 ---
 
-## The through-line
+## What it does
 
 ```mermaid
 flowchart TD
@@ -209,28 +208,13 @@ live entirely behind the `live` mark, which the README says explicitly.
 Every image is a real capture of the running app via Playwright, in both colour schemes. 28
 across five projects, none a mockup.
 
-## What this repo does NOT do
+## Scope
 
 - **It does not test hosted models.** Every number is `qwen2.5:3b-instruct` on one machine.
 - **It is not a LangGraph tutorial.** It assumes you know what a node and an edge are and goes
   at the five places a graph like that is usually demoed past.
 - **It does not benchmark LangGraph against alternatives.** LangGraph is the tool under test,
   not the subject of comparison.
-
-## Problems hit while building this
-
-Full accounts are in each project's README. Two that generalise past a single project:
-
-- **LangGraph raises `InvalidUpdateError` on a genuinely conflicting concurrent write** —
-  including when a parallel node spreads `{**state, ...}` and re-submits every unchanged field
-  as an update to itself, not only when two branches disagree about a real value. A parallel
-  node must return only its own delta, and any dict-valued key written from more than one
-  branch needs an explicit reducer.
-- **A live `Ledger` cannot live inside checkpointed state.** LangGraph's checkpointer
-  serialises state between invocations; a callback handler stored there comes back as a
-  disconnected deserialised copy on every resume, silently under-counting real model calls.
-  Call counters belong in a plain registry keyed by a checkpoint-safe string, never in the
-  graph's own state.
 
 ## Keywords
 

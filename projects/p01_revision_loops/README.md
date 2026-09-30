@@ -12,7 +12,7 @@ answer should contain, so "improved" is a number and not an impression.
 
 ---
 
-## The result
+## Results
 
 | strategy | mean score | mean iterations | mean calls | regressed |
 |---|---|---|---|---|
@@ -93,7 +93,7 @@ or a dip is visible at a glance:
 
 ![the score trace across a revision loop, flat after the first couple of iterations](../../screenshots/p01-2-score-trace-light.png)
 
-## What this does NOT do
+## Scope
 
 - **One model, one size.** `qwen2.5:3b-instruct`. A model that self-assesses more reliably
   would change the `self_stop` result specifically; the plateau result is a property of the
@@ -108,13 +108,3 @@ or a dip is visible at a glance:
   build.
 - **Six tasks.** Enough to see a flat trajectory on four of six and a self-stop failure on all
   six; not enough to put a confidence interval on either rate.
-
-## Problems hit while building this
-
-- **A `dataclass` merge for LangGraph state.** `LoopState` is a `TypedDict`, and every node
-  returns `{**state, "field": new_value}` rather than mutating in place — LangGraph's default
-  reducer replaces a state key outright, so a node that forgot to spread the incoming state
-  would silently drop everything written before it.
-- **The `t3` 0.00 trace looked like a scorer bug** until the draft text was actually read. It
-  was a real finding: fluent, technically empty prose that neither the model's own critique nor
-  three additional revisions ever flagged.

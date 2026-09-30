@@ -11,7 +11,7 @@ classifier and differ only in what they do with its output.
 
 ---
 
-## The result
+## Results
 
 | strategy | clean accuracy | cross-cutting accuracy | escalated | wrong+confident | calls |
 |---|---|---|---|---|---|
@@ -93,7 +93,7 @@ confidence:
 
 ![a confident misroute: HIGH confidence next to the wrong category](../../screenshots/p02-2-confident-misroute-light.png)
 
-## What this does NOT do
+## Scope
 
 - **One model, twelve tickets.** Enough to show the direction of the effect; not enough to
   claim a rate. A larger or differently trained model's confidence could easily be calibrated
@@ -107,13 +107,3 @@ confidence:
 - **The "primary" label on a cross-cutting ticket is a judgement call**, stated as the category
   a support team would route it to first. Two of the twelve tickets' `also` fields could
   reasonably be argued the other way; the corpus documents the call rather than hiding it.
-
-## Problems hit while building this
-
-- **`confidence_gate`'s 33% clean accuracy looked like a bug** before the per-ticket data was
-  read. It was not: the router was getting the category right and reporting MEDIUM, and the
-  gate correctly did what it was told to do with a MEDIUM reading. The instrument worked; the
-  premise that confidence tracks correctness did not.
-- **The call-count design was written as a list of ledgers from the start**, not a bare one,
-  because `langchain-lab` had already found that `chat(..., callbacks=[single_handler])` drops
-  a second handler passed separately — a lesson applied here rather than re-discovered.

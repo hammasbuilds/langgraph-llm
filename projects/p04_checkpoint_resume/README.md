@@ -13,7 +13,7 @@ project puts a real drafting step in front of both and counts how many times it 
 
 ---
 
-## The result
+## Results
 
 | scenario | revision rounds | checkpointed draft calls | naive draft calls | extra |
 |---|---|---|---|---|
@@ -75,7 +75,7 @@ strip of steps, with the naive strategy's wasted final call marked:
 
 ![checkpointed makes exactly the calls it needs; naive_requeue adds one wasted redraft at the end](../../screenshots/p04-2-wasted-redraft-light.png)
 
-## What this does NOT do
+## Scope
 
 - **Three scenarios, one model.** Enough to show the overhead is flat rather than scaling with
   revision count; not enough to claim the exact multiplier generalises past this task shape.
@@ -89,19 +89,3 @@ strip of steps, with the naive strategy's wasted final call marked:
   false to true once per run.
 - **`MemorySaver` only.** A production checkpointer (Postgres, Redis) changes durability across
   process restarts, not the call-count behaviour measured here.
-
-## Problems hit while building this
-
-- **A live `Ledger` object cannot live inside checkpointed graph state.** The first version put
-  it there, matching every other project in this repo. LangGraph's checkpointer serialises
-  state between invocations, so each resume operated on a **deserialised copy** disconnected
-  from the `Ledger` instance the benchmark was reading — real model calls kept happening, the
-  copy kept counting them, and the external count silently stayed at 1 regardless of how many
-  resumes occurred. The fix keeps call counters in a plain module-level registry keyed by a
-  checkpoint-safe string, never inside the graph's own state.
-- **The naive strategy's first draft was measured as its whole cost.** An early version's loop
-  conflated "get the initial draft" with "the final approval call" whenever a scenario had zero
-  revision rounds, so `s1` measured 1 draft call for naive instead of 2 and reported no overhead
-  at all on the simplest scenario. Restructuring the loop into three explicit phases — initial
-  draft, one call per revision round, one final approval call — fixed it and is what the "flat
-  +1 regardless of revision count" result depends on.

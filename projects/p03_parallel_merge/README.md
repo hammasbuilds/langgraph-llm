@@ -11,7 +11,7 @@ errored API — and the question is whether the report says so.
 
 ---
 
-## The result
+## Results
 
 | strategy | mean aspects represented (of 4) | disclosed the failure | reads as complete |
 |---|---|---|---|
@@ -51,7 +51,7 @@ There is no obvious pattern in which two it caught — not the first two, not an
 aspect. An instruction to check for gaps is not a mechanism that reliably finds them; it raises
 the rate from never to sometimes, on identical inputs to the failure it is meant to catch.
 
-## Why this is a LangGraph problem, not only a prompting one
+## Where this shows up in LangGraph
 
 The graph itself does the right thing mechanically. Four analyst nodes run in the same
 superstep — genuine parallelism, confirmed by state updates arriving from all four before the
@@ -77,7 +77,7 @@ report, so a failed branch's empty box sits right next to a report that never me
 
 ![a failed branch, and a synthesis report that reads as fully complete anyway](../../screenshots/p03-2-silent-failure-light.png)
 
-## What this does NOT do
+## Scope
 
 - **Four briefs, one failed branch each.** Enough to show 4/4 silent and 2/4 flagged; not
   enough to put a precise rate on either. The direction — silent gating is unreliable, explicit
@@ -90,26 +90,3 @@ report, so a failed branch's empty box sits right next to a report that never me
   worth testing directly rather than assuming from this run.
 - **It does not test more than one simultaneous failure**, or a partial failure (a branch that
   returns some but not all of what it should).
-
-## Problems hit while building this
-
-- **The first version of this project was based on an assumption that turned out to be false.**
-  It assumed LangGraph silently picks a winner when two parallel branches write the same state
-  key. Tested directly: it does not — it raises `InvalidUpdateError` and refuses to run at all
-  unless a reducer is declared. The project was redesigned around the failure mode that
-  actually exists rather than the one that was assumed to.
-- **Returning `{**state, ...}` from a parallel node breaks the graph**, even when every branch
-  writes to a different key, because the spread also re-submits every *unchanged* field as a
-  concurrent write to itself. Four identical writes to `model` in one superstep still count as
-  four different updates as far as the state channel is concerned, and LangGraph rejects it the
-  same way it rejects genuinely conflicting ones. Parallel nodes must return only their delta.
-- **A `dict`-valued state key needs its own reducer too.** Each analyst returning
-  `{"findings": {aspect: value}}` still produces four different dict *values* for the same
-  channel; `Annotated[dict, merge_dicts]` with a small `{**a, **b}` reducer is what lets four
-  single-key dicts combine into one four-key dict rather than raising the same error again one
-  level down.
-- **A single fixed "signature phrase" per aspect produced false negatives.** The first corpus
-  checked for the literal string "CTO left"; a synthesis paraphrasing it as "departure of the
-  CTO" is a correct mention that a strict substring check scores as an omission. Each aspect
-  now accepts several phrasings, verified against real model output before being finalised
-  rather than chosen and assumed to survive rewording.
