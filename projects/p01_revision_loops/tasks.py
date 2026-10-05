@@ -6,7 +6,7 @@ send control back to the generator, arbitrarily many times, based on what it fin
 
 Every demo of this pattern assumes more iterations help. This project tests that assumption by
 scoring each revision against a **fixed checklist of facts the answer should contain** — the
-same instrument as `langchain-lab` project 01's nullable fields, adapted to a different failure
+same instrument as `langchain-llm` project 01's nullable fields, adapted to a different failure
 mode. Where project 01 asked whether a model invents a value it lacks evidence for, this asks
 whether a revision loop can *lose* a fact it already had, which a monotonic-improvement
 assumption has no way to notice.

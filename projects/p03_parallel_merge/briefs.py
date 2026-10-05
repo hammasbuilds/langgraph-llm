@@ -14,7 +14,7 @@ step notices and says so, or writes a fluent report that reads as complete regar
 
 Each aspect has a **signature phrase**: distinctive vocabulary a synthesis genuinely covering
 that aspect would use. Presence of the signature phrase is how "represented in the final
-report" is measured — the same instrument as `langchain-lab`'s checklist scoring, applied here
+report" is measured — the same instrument as `langchain-llm`'s checklist scoring, applied here
 to a fan-in rather than a fan-out.
 """
 

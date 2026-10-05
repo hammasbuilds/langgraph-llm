@@ -1,4 +1,4 @@
-<h1 align="center">langgraph-lab (LangGraph · LangChain · Ollama · Pydantic)</h1>
+<h1 align="center">langgraph-llm (LangGraph · LangChain · Ollama · Pydantic)</h1>
 <p align="center"><i>One project per LangGraph shape, each built and measured end to end</i></p>
 
 <p align="center">
@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/hammasbuilds/langgraph-lab/actions/workflows/ci.yml"><img src="https://github.com/hammasbuilds/langgraph-lab/actions/workflows/ci.yml/badge.svg" alt="ci"></a>
+  <a href="https://github.com/hammasbuilds/langgraph-llm/actions/workflows/ci.yml"><img src="https://github.com/hammasbuilds/langgraph-llm/actions/workflows/ci.yml/badge.svg" alt="ci"></a>
   <img src="https://img.shields.io/badge/python-3.11%2B-blue" alt="python">
   <img src="https://img.shields.io/badge/models-local%20via%20ollama-success" alt="models">
   <img src="https://img.shields.io/badge/API%20keys-none%20required-success" alt="api keys">
@@ -127,7 +127,7 @@ a wheelchair-accessible stay.
 
 ## The model fleet
 
-`shared/models.py` is shared with `langchain-lab`: a capability-based registry rather than
+`shared/models.py` is shared with `langchain-llm`: a capability-based registry rather than
 hard-coded tags, so a project asks for "something that can call tools" and the benchmark runs
 on whatever is actually pulled.
 
@@ -142,8 +142,8 @@ on whatever is actually pulled.
 ## Quick start
 
 ```bash
-git clone https://github.com/hammasbuilds/langgraph-lab
-cd langgraph-lab
+git clone https://github.com/hammasbuilds/langgraph-llm
+cd langgraph-llm
 
 make install
 ollama pull qwen2.5:3b-instruct
@@ -175,7 +175,7 @@ one pass.*
 
 ```
 shared/
-  models.py            the fleet registry, shared with langchain-lab
+  models.py            the fleet registry, shared with langchain-llm
   llm.py               chat/embeddings + Ledger, the callback that counts calls
   web/                 design system and templates, shared by every project's UI
 projects/
